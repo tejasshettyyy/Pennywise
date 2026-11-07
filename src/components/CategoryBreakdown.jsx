@@ -1,0 +1,3 @@
+import {categories} from '../data/categories'
+import {currency} from '../utils/finance'
+export default function CategoryBreakdown({expenses}){const rows=categories.map(c=>({...c,total:expenses.filter(e=>e.category===c.name).reduce((s,e)=>s+Number(e.amount),0)})).filter(c=>c.total>0).sort((a,b)=>b.total-a.total);const total=rows.reduce((s,c)=>s+c.total,0);if(!rows.length)return <div className="empty">Category totals appear after you add expenses.</div>;return <div className="breakdown">{rows.map(c=><div key={c.name}><div className="cat-head"><span>{c.icon} {c.name}</span><b>{currency(c.total)}</b></div><div className="track"><span style={{width:(c.total/total*100)+'%',background:c.color}}/></div></div>)}</div>}

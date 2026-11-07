@@ -1,0 +1,4 @@
+import {Pencil,Trash2} from 'lucide-react'
+import {categories} from '../data/categories'
+import {currency,prettyDate} from '../utils/finance'
+export default function ExpenseList({expenses,onEdit,onDelete,compact=false}){const list=[...expenses].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,compact?5:undefined);if(!list.length)return <div className="empty"><b>No expenses yet</b><p>Add your first expense to start tracking.</p></div>;return <div>{list.map(e=><div className="expense-row" key={e.id}><div className="expense-icon">{categories.find(c=>c.name===e.category)?.icon||'✦'}</div><div className="expense-info"><b>{e.note||e.category}</b><small>{e.category} · {prettyDate(e.date)}</small></div><strong>−{currency(e.amount)}</strong>{!compact&&<div className="row-actions"><button onClick={()=>onEdit(e)} title="Edit"><Pencil size={15}/></button><button onClick={()=>onDelete(e.id)} title="Delete"><Trash2 size={15}/></button></div>}</div>)}</div>}
